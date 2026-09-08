@@ -49,7 +49,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:34px 0;color:#8f99ac;f
 </div>
 
 <div class="viewer-card reveal">
-<div class="viewer-top"><span class="pill">LOCAL 3D DENTAL MODEL</span><span class="pill" id="modeLabel">ALIGNER ON</span></div>
+<div class="viewer-top"><span class="pill">ANATOMICAL 3D MODEL</span><span class="pill" id="modeLabel">ALIGNER ON</span></div>
 <div id="loading" class="loading"><div class="loader"><div class="ring"></div><div>Preparing 3D dental model…</div></div></div>
 <canvas id="viewer"></canvas>
 <div class="viewer-controls">
@@ -59,8 +59,9 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:34px 0;color:#8f99ac;f
 <button id="topBtn">Occlusal</button>
 <button id="autoBtn" class="active">Auto Rotate</button>
 </div>
-<div class="disclaimer">The 3D dental arch is bundled locally with this website. The transparent shell is an educational visual representation of a clear aligner, not a fabricated or patient-specific appliance.</div>
-</div>
+<div class="disclaimer">  Anatomical reference model: NIH 3D, Upper dental tooth model (3DPX-003002).
+  The transparent shell is an educational visual representation of a clear aligner,
+  not a patient-specific appliance, scan, diagnosis or treatment simulation.</div></div>
 </div>
 </section>
 
@@ -96,7 +97,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:34px 0;color:#8f99ac;f
 
 <section id="appointment" class="cta">
 <div class="container cta-grid">
-<div class="reveal"><div class="eyebrow">04 · Start Your Smile Journey</div><h2>Ready for a<br><span class="gold serif">confident smile?</span></h2><p class="copy">Book a consultation with Dental World for clear aligners, implants, micro endodontics and comprehensive dental care.</p><div class="actions"><a class="btn goldbtn" href="tel:+917018314882">Call +91 70183 14882</a><a class="btn linebtn" href="https://instagram.com/dentalworldaligners" target="_blank" rel="noopener">Instagram @dentalworldaligners</a></div></div>
+<div class="reveal"><div class="eyebrow">04 · Start Your Smile Journey</div><h2>Ready for a<br><span class="gold serif">confident smile?</span></h2><p class="copy">Explore a locally bundled interactive 3D upper dental arch with an educational clear-aligner visualization. Rotate, zoom and switch the aligner layer on and off.</p><div class="actions"><a class="btn goldbtn" href="tel:+917018314882">Call +91 70183 14882</a><a class="btn linebtn" href="https://instagram.com/dentalworldaligners" target="_blank" rel="noopener">Instagram @dentalworldaligners</a></div></div>
 <div class="contactbox reveal"><h3>Request an appointment</h3><form id="waForm"><div class="formgrid">
 <div><label>Name</label><input id="name" required placeholder="Your name"></div>
 <div><label>Phone</label><input id="phone" required placeholder="+91..."></div>
@@ -143,82 +144,155 @@ const key=new THREE.DirectionalLight(0xffffff,3.5); key.position.set(3,6,6); sce
 const rim=new THREE.DirectionalLight(0x8ec8ff,2.5); rim.position.set(-4,3,-4); scene.add(rim);
 const warm=new THREE.PointLight(0xf4dc91,1.7,10); warm.position.set(0,2.5,3); scene.add(warm);
 
-const root=new THREE.Group(); scene.add(root);
-const anatomyGroup=new THREE.Group(), alignerGroup=new THREE.Group();
-root.add(anatomyGroup,alignerGroup);
+const root = new THREE.Group();
+scene.add(root);
 
-function toothGeometry(radius,height){
-  // Lathed crown profile: a compact educational tooth form with rounded cervical
-  // region and a gently tapered occlusal surface.
-  const p=[
-    new THREE.Vector2(radius*.58,-height*.50),
-    new THREE.Vector2(radius*.86,-height*.40),
-    new THREE.Vector2(radius,-height*.16),
-    new THREE.Vector2(radius*.96,height*.12),
-    new THREE.Vector2(radius*.82,height*.31),
-    new THREE.Vector2(radius*.58,height*.44),
-    new THREE.Vector2(radius*.24,height*.50),
-    new THREE.Vector2(0,height*.51)
-  ];
-  return new THREE.LatheGeometry(p,28);
+const anatomyGroup = new THREE.Group();
+const alignerGroup = new THREE.Group();
+
+root.add(anatomyGroup);
+root.add(alignerGroup);
+
+const { GLTFLoader } = await import(
+  "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js"
+);
+
+// NIH 3D — Upper dental tooth model, Version 2
+const MODEL_URL =
+  "https://3d.nih.gov/api/submissions/4342/runs/c4393ceb-f871-4080-81d3-2cda01e35d0c/output-files/91817";
+
+const loader = new GLTFLoader();
+
+function styleAnatomy(model) {
+  model.traverse((child) => {
+    if (!child.isMesh) return;
+
+    child.castShadow = true;
+    child.receiveShadow = true;
+
+    child.material = new THREE.MeshPhysicalMaterial({
+      color: 0xf5f1e8,
+      roughness: 0.32,
+      metalness: 0,
+      clearcoat: 0.28,
+      clearcoatRoughness: 0.2
+    });
+  });
 }
 
-function makeTooth(spec, shell=false){
-  const mat=shell
-    ? new THREE.MeshPhysicalMaterial({color:0xbfeeff,transparent:true,opacity:.19,transmission:.72,thickness:.06,roughness:.06,metalness:0,side:THREE.DoubleSide,depthWrite:false})
-    : new THREE.MeshPhysicalMaterial({color:0xf5f1e7,roughness:.28,metalness:.01,clearcoat:.32,clearcoatRoughness:.18});
-  const m=new THREE.Mesh(toothGeometry(spec.radius*(shell?1.055:1),spec.height*(shell?1.035:1)),mat);
-  m.position.set(spec.x,shell?0.04:0,spec.z);
-  m.rotation.y=spec.rotation;
-  if(shell)m.renderOrder=5;
-  return m;
+function createAligner(model) {
+  const shell = model.clone(true);
+
+  shell.traverse((child) => {
+    if (!child.isMesh) return;
+
+    child.material = new THREE.MeshPhysicalMaterial({
+      color: 0xbfeeff,
+      transparent: true,
+      opacity: 0.16,
+      transmission: 0.55,
+      thickness: 0.08,
+      roughness: 0.05,
+      metalness: 0,
+      side: THREE.DoubleSide,
+      depthWrite: false
+    });
+
+    child.renderOrder = 5;
+  });
+
+  shell.scale.set(1.025, 1.025, 1.025);
+  shell.position.y += 0.025;
+
+  return shell;
 }
 
-function archCurve(){
-  const pts=[];
-  for(let i=0;i<17;i++){
-    const t=i/16, theta=-1.22+t*2.44;
-    pts.push(new THREE.Vector3(2.58*Math.sin(theta),.03,1.02*Math.cos(theta)));
+loader.load(
+  MODEL_URL,
+
+  (gltf) => {
+    const model = gltf.scene;
+
+    styleAnatomy(model);
+
+    anatomyGroup.add(model);
+
+    const shell = createAligner(model);
+    alignerGroup.add(shell);
+
+    // Center and size the anatomical model
+    const box = new THREE.Box3().setFromObject(root);
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+
+    root.position.sub(center);
+
+    const maxDimension = Math.max(
+      size.x,
+      size.y,
+      size.z
+    );
+
+    const targetSize = 4.8;
+
+    root.scale.setScalar(
+      targetSize / maxDimension
+    );
+
+    // Slightly tilt the model for a premium presentation
+    root.rotation.x = -0.18;
+
+    fitCamera();
+
+    document
+      .getElementById("loading")
+      .classList.add("hide");
+  },
+
+  undefined,
+
+  (error) => {
+    console.error("NIH 3D model failed to load:", error);
+
+    document.querySelector("#loading .loader").innerHTML = `
+      <div style="font-size:1.8rem;margin-bottom:10px">3D model unavailable</div>
+      <div style="font-size:.8rem;color:#9fa9bb">
+        Please refresh the page to try again.
+      </div>
+    `;
   }
-  return new THREE.CatmullRomCurve3(pts);
-}
+);
 
-const data=window.DENTAL_WORLD_MODEL;
-const anatomy=new THREE.Group(), shell=new THREE.Group();
-data.teeth.forEach(t=>{anatomy.add(makeTooth(t,false));shell.add(makeTooth(t,true));});
+function fitCamera() {
+  const box = new THREE.Box3().setFromObject(root);
 
-// Gum: a rounded horseshoe-like tube beneath the teeth.
-const gumMat=new THREE.MeshPhysicalMaterial({color:0xb96f7d,roughness:.43,metalness:.0});
-const gum=new THREE.Mesh(new THREE.TubeGeometry(archCurve(),64,.23,18,false),gumMat);
-gum.position.y=-.05;
-anatomy.add(gum);
+  if (box.isEmpty()) {
+    camera.position.set(0, 2.8, 6.5);
+    controls.target.set(0, 0, 0);
+    controls.update();
+    return;
+  }
 
-// Local transparent aligner shell: a slightly enlarged tooth envelope plus a thin
-// horseshoe rim. This is intentionally educational, not patient-specific.
-const alignerRimMat=new THREE.MeshPhysicalMaterial({
-  color:0xc9f3ff,transparent:true,opacity:.16,transmission:.65,thickness:.09,
-  roughness:.05,side:THREE.DoubleSide,depthWrite:false
-});
-const alignerRim=new THREE.Mesh(new THREE.TubeGeometry(archCurve(),64,.37,18,false),alignerRimMat);
-alignerRim.position.y=.07;
-alignerRim.renderOrder=6;
-shell.add(alignerRim);
+  const center = box.getCenter(new THREE.Vector3());
+  const size = box.getSize(new THREE.Vector3());
 
-anatomyGroup.add(anatomy);
-alignerGroup.add(shell);
-root.rotation.x=-.08;
+  const maxDimension = Math.max(
+    size.x,
+    size.y,
+    size.z
+  );
 
-function fitCamera(){
-  const box=new THREE.Box3().setFromObject(root);
-  const center=box.getCenter(new THREE.Vector3());
-  const size=box.getSize(new THREE.Vector3());
-  const max=Math.max(size.x,size.y,size.z);
-  camera.position.set(center.x,center.y+max*.55,center.z+max*1.55);
+  camera.position.set(
+    center.x,
+    center.y + maxDimension * 0.55,
+    center.z + maxDimension * 1.65
+  );
+
   camera.lookAt(center);
+
   controls.target.copy(center);
   controls.update();
 }
-fitCamera();
 document.getElementById("loading").classList.add("hide");
 
 let alignerOn=true, anatomyOn=true;
