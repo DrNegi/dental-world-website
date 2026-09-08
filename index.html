@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Dental World — Advanced Dentistry & Clear Aligners. Premium interactive 3D dental experience.">
+<meta name="theme-color" content="#060b19">
+<title>Dental World | Advanced Dentistry & Clear Aligners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060b19;--bg2:#0b1225;--panel:#0e1830;--gold:#d6b45c;--gold2:#f4dc91;--text:#f6f3eb;--muted:#aab3c6;--line:rgba(245,220,146,.18)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:"DM Sans",sans-serif;overflow-x:hidden}a{color:inherit;text-decoration:none}
+.container{width:min(1180px,92%);margin:auto}.gold{color:var(--gold2)}.serif{font-family:"Playfair Display",serif}.eyebrow{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold2);font-weight:800}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:999px;padding:13px 21px;border:1px solid var(--gold);font-weight:800;cursor:pointer;transition:.25s}.goldbtn{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#11182a;box-shadow:0 14px 40px rgba(214,180,92,.16)}.goldbtn:hover{transform:translateY(-2px)}.linebtn:hover{background:rgba(245,220,146,.07)}
+header{position:fixed;z-index:100;inset:0 0 auto;background:rgba(6,11,25,.72);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06)}nav{height:78px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:12px;font-family:Manrope;font-weight:800;letter-spacing:.08em}.brand img{width:44px;height:44px;border-radius:50%;object-fit:cover}.links{display:flex;align-items:center;gap:25px;color:#dbe0eb;font-size:.9rem}.links a:hover{color:var(--gold2)}.hamb{display:none;background:none;border:0;color:#fff;font-size:1.6rem}
+.hero{min-height:100vh;padding:125px 0 70px;display:grid;align-items:center;background:radial-gradient(circle at 82% 30%,rgba(214,180,92,.09),transparent 26%),radial-gradient(circle at 10% 80%,rgba(42,74,145,.12),transparent 32%)}.hero-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:35px;align-items:center}h1{font-size:clamp(3.4rem,6vw,6.2rem);line-height:.98;letter-spacing:-.05em;margin:16px 0 24px}.copy{color:#b8c1d1;line-height:1.8;max-width:560px;font-size:1.05rem}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.viewer-card{position:relative;border:1px solid var(--line);border-radius:30px;overflow:hidden;background:radial-gradient(circle at 50% 35%,rgba(61,98,165,.16),transparent 42%),#080f21;box-shadow:0 30px 90px rgba(0,0,0,.35)}#viewer{width:100%;height:650px;display:block;touch-action:none}.viewer-top{position:absolute;left:20px;right:20px;top:18px;z-index:5;display:flex;justify-content:space-between;gap:15px;pointer-events:none}.pill{pointer-events:auto;padding:9px 12px;border-radius:999px;background:rgba(7,13,28,.78);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(12px);font-size:.72rem;color:#d9deea}.viewer-controls{position:absolute;z-index:5;left:20px;right:20px;bottom:20px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.viewer-controls button{border:1px solid rgba(255,255,255,.13);background:rgba(7,13,28,.82);color:#e9edf4;border-radius:999px;padding:10px 14px;cursor:pointer;font-size:.78rem;font-weight:700;backdrop-filter:blur(12px)}.viewer-controls button.active,.viewer-controls button:hover{border-color:var(--gold);color:var(--gold2)}
+.loading{position:absolute;inset:0;display:grid;place-items:center;z-index:4;background:rgba(6,11,25,.92);transition:.35s}.loading.hide{opacity:0;pointer-events:none}.loader{text-align:center;color:#b8c1d1}.loader .ring{width:44px;height:44px;border:2px solid rgba(245,220,146,.2);border-top-color:var(--gold2);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 14px}@keyframes spin{to{transform:rotate(360deg)}}
+.disclaimer{padding:11px 16px;border-top:1px solid rgba(255,255,255,.06);color:#8792a7;font-size:.7rem;line-height:1.55;background:rgba(0,0,0,.12)}
+section{padding:110px 0}.dark{background:var(--bg2)}.head{display:flex;justify-content:space-between;align-items:end;gap:35px;margin-bottom:48px}.head h2{font-size:clamp(2.5rem,4.5vw,4.4rem);line-height:1.02;margin:10px 0 0}.head p{max-width:520px;color:#aeb7c8;line-height:1.75;margin:0}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.feature{padding:29px;border:1px solid rgba(255,255,255,.08);border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.012))}.feature b{font-family:Manrope;color:var(--gold2);font-size:.76rem}.feature h3{font-family:"Playfair Display";font-size:1.55rem;margin:25px 0 10px}.feature p{color:#9fa9bb;font-size:.91rem;line-height:1.7;margin:0}
+.doctors{display:grid;grid-template-columns:1fr 1fr;gap:20px}.doctor{display:grid;grid-template-columns:210px 1fr;gap:22px;padding:16px;border:1px solid rgba(255,255,255,.08);border-radius:24px;background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.01))}.doctor img{width:100%;height:280px;object-fit:cover;border-radius:16px}.doctor h3{font-family:"Playfair Display";font-size:1.75rem;margin:8px 0}.cred{color:var(--gold2);font-size:.8rem;font-weight:800}.doctor p{color:#a1aabc;font-size:.87rem;line-height:1.7}
+.branches{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.branch{padding:29px;border:1px solid rgba(255,255,255,.08);border-radius:22px;background:#0c142a}.branch h3{font-family:"Playfair Display";font-size:1.7rem;margin:8px 0 12px}address{font-style:normal;color:#aeb7c8;font-size:.9rem;line-height:1.65;min-height:90px}.branch .btn{width:100%;margin-top:18px}
+.cta{background:linear-gradient(110deg,#121d39,#090f20)}.cta-grid{display:grid;grid-template-columns:1fr .9fr;gap:60px;align-items:center}.cta h2{font-size:clamp(2.7rem,5vw,5rem);line-height:1}.contactbox{background:#f6f2e9;color:#192033;border-radius:26px;padding:30px}.contactbox h3{font-family:"Playfair Display";font-size:1.8rem;margin:0 0 20px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}label{font-size:.75rem;font-weight:800;color:#556075}input,select,textarea{width:100%;padding:13px;margin-top:6px;border:1px solid #d6dbe3;border-radius:10px;outline:none;background:white;color:#192033}textarea{min-height:95px;resize:vertical}.full{grid-column:1/-1}.contactbox .btn{width:100%;margin-top:15px}
+footer{border-top:1px solid rgba(255,255,255,.07);padding:34px 0;color:#8f99ac;font-size:.8rem}.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.ig{color:var(--gold2)}
+.reveal{opacity:0;transform:translateY(22px);transition:.75s}.reveal.show{opacity:1;transform:none}
+@media(max-width:950px){.links{display:none;position:absolute;top:78px;left:0;right:0;background:#070d1e;padding:22px;flex-direction:column;align-items:flex-start}.links.open{display:flex}.hamb{display:block}.hero-grid,.cta-grid{grid-template-columns:1fr}#viewer{height:560px}.features,.branches{grid-template-columns:1fr 1fr}.doctors{grid-template-columns:1fr}}
+@media(max-width:620px){section{padding:80px 0}.hero-grid{gap:15px}#viewer{height:460px}.head{display:block}.head p{margin-top:18px}.features,.branches,.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.doctor{grid-template-columns:1fr}.doctor img{height:350px}}
+</style>
+</head>
+<body>
+<header><div class="container"><nav>
+<a class="brand" href="#top"><img src="assets/logo.jpeg" alt="Dental World logo"><span>DENTAL WORLD</span></a>
+<button class="hamb" aria-label="Menu" onclick="document.querySelector('.links').classList.toggle('open')">☰</button>
+<div class="links"><a href="#experience">3D Experience</a><a href="#treatments">Treatments</a><a href="#doctors">Doctors</a><a href="#locations">Locations</a><a href="#appointment" class="btn goldbtn">Book Consultation</a></div>
+</nav></div></header>
+
+<main id="top">
+<section class="hero" id="experience">
+<div class="container hero-grid">
+<div class="reveal">
+<div class="eyebrow">Advanced Dentistry & Clear Aligners</div>
+<h1>See your smile<br><span class="gold serif">in a new dimension.</span></h1>
+<p class="copy">Explore a locally bundled anatomical 3D upper dental model from NIH 3D with an educational clear-aligner visualization. Rotate, zoom and switch the aligner layer on and off.</p>
+<div class="actions"><a class="btn goldbtn" href="#appointment">Book an Aligner Consultation →</a><a class="btn linebtn" href="tel:+917018314882">Call +91 70183 14882</a></div>
+<p style="font-size:.72rem;color:#7f8a9f;margin-top:18px;max-width:560px">Educational visualization only. It is not a patient-specific scan, diagnosis, treatment simulation or clinical device.</p>
+</div>
+
+<div class="viewer-card reveal">
+<div class="viewer-top"><span class="pill">LOCAL 3D DENTAL MODEL</span><span class="pill" id="modeLabel">ALIGNER ON</span></div>
+<div id="loading" class="loading"><div class="loader"><div class="ring"></div><div>Preparing 3D dental model…</div></div></div>
+<canvas id="viewer"></canvas>
+<div class="viewer-controls">
+<button id="alignerBtn" class="active">Aligner</button>
+<button id="anatomyBtn" class="active">Anatomy</button>
+<button id="frontBtn">Front</button>
+<button id="topBtn">Occlusal</button>
+<button id="autoBtn" class="active">Auto Rotate</button>
+</div>
+<div class="disclaimer">The 3D dental arch is bundled locally with this website. The transparent shell is an educational visual representation of a clear aligner, not a fabricated or patient-specific appliance.</div>
+</div>
+</div>
+</section>
+
+<section id="treatments" class="dark">
+<div class="container">
+<div class="head reveal"><div><div class="eyebrow">01 · Specialist Care</div><h2>Precision dentistry,<br><span class="gold">beautifully delivered.</span></h2></div><p>Dental World combines specialist expertise, modern technology and a patient-first approach across Baddi, Panchkula and Darlaghat.</p></div>
+<div class="features">
+<div class="feature reveal"><b>01 · CLEAR ALIGNERS</b><h3>Discreet orthodontics</h3><p>Dedicated in-house aligner workflow with specialist orthodontic planning and progress monitoring.</p></div>
+<div class="feature reveal"><b>02 · MICRO ENDODONTICS</b><h3>Precision root canals</h3><p>Conservative, magnification-led endodontic care focused on preserving natural tooth structure.</p></div>
+<div class="feature reveal"><b>03 · IMPLANTS</b><h3>Confident restoration</h3><p>Modern implant dentistry designed around function, stability and a natural-looking smile.</p></div>
+</div>
+</div>
+</section>
+
+<section id="doctors">
+<div class="container">
+<div class="head reveal"><div><div class="eyebrow">02 · Your Specialists</div><h2>Experts behind<br><span class="gold">your smile.</span></h2></div><p>Two complementary specialties supporting comprehensive dental treatment and clear aligner care.</p></div>
+<div class="doctors">
+<article class="doctor reveal"><img src="assets/dr-sandeep-gupta.jpeg" alt="Doctor profile"><div><div class="eyebrow">Endodontics & Conservative Dentistry</div><h3>Dr. Sandeep Gupta</h3><div class="cred">BDS · MDS Endodontics & Conservative Dentistry</div><p><strong>10+ Yrs Exp</strong> · Professor, Bhojia Dental College</p><p>Specialist focus on micro endodontics, restorative dentistry and comprehensive patient care.</p></div></article>
+<article class="doctor reveal"><img src="assets/dr-shaurya-negi.jpeg" alt="Doctor profile"><div><div class="eyebrow">Orthodontics & Dentofacial Orthopedics</div><h3>Dr. Shaurya Negi</h3><div class="cred">BDS · MDS Orthodontics & Dentofacial Orthopedics</div><p><strong>3+ Yrs Exp</strong> · Sr. Lecturer, Bhojia Dental College</p><p>Specialist focus on orthodontics, smile alignment and clear aligner treatment planning.</p></div></article>
+</div></div>
+</section>
+
+<section id="locations" class="dark">
+<div class="container">
+<div class="head reveal"><div><div class="eyebrow">03 · Visit Dental World</div><h2>Three locations.<br><span class="gold">One standard.</span></h2></div><p>Choose the clinic most convenient for you and open the map directly for directions.</p></div>
+<div class="branches">
+<article class="branch reveal"><div class="eyebrow">Baddi</div><h3>Dental World · Baddi</h3><address>1st floor, Show room 1, above Relaxo Laj Dharam Kanta,<br>Baddi, Himachal Pradesh 173205</address><a class="btn linebtn" href="https://share.google/VWOfDs6oW7ToN0hRG" target="_blank" rel="noopener">Open in Google Maps →</a></article>
+<article class="branch reveal"><div class="eyebrow">Panchkula</div><h3>Dental World · Panchkula</h3><address>First floor, SCF 21, above Avadh Bakery,<br>Sector 15, Panchkula, Haryana 134113</address><a class="btn linebtn" href="https://share.google/LRBT4wydFT1iblavw" target="_blank" rel="noopener">Open in Google Maps →</a></article>
+<article class="branch reveal"><div class="eyebrow">Darlaghat</div><h3>Dental World · Darlaghat</h3><address>Darlaghat,<br>Himachal Pradesh 171102</address><a class="btn linebtn" href="https://share.google/PS1P51Z7ln3nXA8rs" target="_blank" rel="noopener">Open in Google Maps →</a></article>
+</div></div>
+</section>
+
+<section id="appointment" class="cta">
+<div class="container cta-grid">
+<div class="reveal"><div class="eyebrow">04 · Start Your Smile Journey</div><h2>Ready for a<br><span class="gold serif">confident smile?</span></h2><p class="copy">Book a consultation with Dental World for clear aligners, implants, micro endodontics and comprehensive dental care.</p><div class="actions"><a class="btn goldbtn" href="tel:+917018314882">Call +91 70183 14882</a><a class="btn linebtn" href="https://instagram.com/dentalworldaligners" target="_blank" rel="noopener">Instagram @dentalworldaligners</a></div></div>
+<div class="contactbox reveal"><h3>Request an appointment</h3><form id="waForm"><div class="formgrid">
+<div><label>Name</label><input id="name" required placeholder="Your name"></div>
+<div><label>Phone</label><input id="phone" required placeholder="+91..."></div>
+<div><label>Preferred branch</label><select id="branch"><option>Baddi</option><option>Panchkula</option><option>Darlaghat</option></select></div>
+<div><label>Interest</label><select id="interest"><option>Clear Aligners</option><option>Implants</option><option>Micro Endodontics</option><option>General Dentistry</option></select></div>
+<div class="full"><label>Message</label><textarea id="message" placeholder="Tell us how we can help"></textarea></div>
+</div><button class="btn goldbtn" type="submit">Send on WhatsApp →</button></form></div>
+</div>
+</section>
+</main>
+
+<footer><div class="container foot"><div>© Dental World · Advanced Dentistry & Clear Aligners</div><div>+91 7018314882 · +91 9736394404</div><div><a class="ig" href="https://instagram.com/dentalworldaligners" target="_blank" rel="noopener">@dentalworldaligners</a></div></div></footer>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
+import {OrbitControls} from "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/controls/OrbitControls.js";
+import {GLTFLoader} from "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js";
+
+const canvas=document.getElementById("viewer");
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x080f21);
+const camera=new THREE.PerspectiveCamera(32,1,.01,1000);
+camera.position.set(0,6,7);
+
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,preserveDrawingBuffer:false});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=1.15;
+
+const controls=new OrbitControls(camera,canvas);
+controls.enableDamping=true;
+controls.dampingFactor=.06;
+controls.enablePan=false;
+controls.minDistance=2.2;
+controls.maxDistance=12;
+controls.autoRotate=true;
+controls.autoRotateSpeed=.65;
+controls.target.set(0,0,0);
+
+scene.add(new THREE.HemisphereLight(0xf4f7ff,0x18223d,2.2));
+const key=new THREE.DirectionalLight(0xffffff,3.8); key.position.set(4,7,6); scene.add(key);
+const fill=new THREE.DirectionalLight(0xbfdcff,2.2); fill.position.set(-5,4,-4); scene.add(fill);
+const warm=new THREE.PointLight(0xf4dc91,1.4,12); warm.position.set(0,4,4); scene.add(warm);
+
+const root=new THREE.Group();
+scene.add(root);
+const anatomyGroup=new THREE.Group();
+const alignerGroup=new THREE.Group();
+root.add(anatomyGroup,alignerGroup);
+
+// Local, optimized copy of the NIH 3D Upper Dental Tooth Model (3DPX-003002).
+// Bundled locally so the viewer does not depend on the NIH binary endpoint.
+const MODEL_URL="assets/Maxillary_teeth_w_base_NIH3D_optimized.glb";
+const loader=new GLTFLoader();
+let modelReady=false;
+
+function styleAnatomy(model){
+  model.traverse(child=>{
+    if(!child.isMesh) return;
+    if(!child.geometry.attributes.normal) child.geometry.computeVertexNormals();
+    child.castShadow=true;
+    child.receiveShadow=true;
+    child.material=new THREE.MeshPhysicalMaterial({
+      color:0xf1eee6,
+      roughness:.28,
+      metalness:0,
+      clearcoat:.34,
+      clearcoatRoughness:.16
+    });
+  });
+}
+
+function createAligner(model){
+  const shell=model.clone(true);
+  shell.traverse(child=>{
+    if(!child.isMesh) return;
+    child.material=new THREE.MeshPhysicalMaterial({
+      color:0xccefff,
+      transparent:true,
+      opacity:.13,
+      transmission:.72,
+      thickness:.06,
+      roughness:.04,
+      metalness:0,
+      side:THREE.DoubleSide,
+      depthWrite:false
+    });
+    child.renderOrder=5;
+  });
+  shell.scale.setScalar(1.018);
+  return shell;
+}
+
+function fitCamera(){
+  const box=new THREE.Box3().setFromObject(root);
+  if(box.isEmpty()) return;
+  const center=box.getCenter(new THREE.Vector3());
+  const size=box.getSize(new THREE.Vector3());
+  const maxDimension=Math.max(size.x,size.y,size.z);
+  const distance=maxDimension*1.65;
+  camera.position.set(center.x,center.y+maxDimension*.95,center.z+distance);
+  camera.lookAt(center);
+  controls.target.copy(center);
+  controls.minDistance=maxDimension*.72;
+  controls.maxDistance=maxDimension*3.2;
+  controls.update();
+}
+
+loader.load(MODEL_URL,gltf=>{
+  const model=gltf.scene;
+  styleAnatomy(model);
+  anatomyGroup.add(model);
+
+  const shell=createAligner(model);
+  alignerGroup.add(shell);
+
+  const initialBox=new THREE.Box3().setFromObject(root);
+  const initialCenter=initialBox.getCenter(new THREE.Vector3());
+  const initialSize=initialBox.getSize(new THREE.Vector3());
+  const maxDimension=Math.max(initialSize.x,initialSize.y,initialSize.z);
+
+  root.position.sub(initialCenter);
+  root.scale.setScalar(5.0/maxDimension);
+
+  fitCamera();
+  modelReady=true;
+  document.getElementById("loading").classList.add("hide");
+},undefined,error=>{
+  console.error("Local anatomical 3D model failed to load:",error);
+  document.querySelector("#loading .loader").innerHTML=`
+    <div style="font-size:1.5rem;margin-bottom:10px">3D model could not load</div>
+    <div style="font-size:.8rem;color:#9fa9bb;max-width:260px;margin:auto">Please make sure the assets folder and GLB file were uploaded to GitHub.</div>`;
+});
+
+let alignerOn=true, anatomyOn=true;
+const alignerBtn=document.getElementById("alignerBtn");
+const anatomyBtn=document.getElementById("anatomyBtn");
+function sync(){
+  alignerGroup.visible=alignerOn && modelReady;
+  anatomyGroup.visible=anatomyOn;
+  alignerBtn.classList.toggle("active",alignerOn);
+  anatomyBtn.classList.toggle("active",anatomyOn);
+  document.getElementById("modeLabel").textContent=alignerOn?"ALIGNER ON":"ALIGNER OFF";
+}
+alignerBtn.onclick=()=>{alignerOn=!alignerOn;sync()};
+anatomyBtn.onclick=()=>{anatomyOn=!anatomyOn;sync()};
+document.getElementById("autoBtn").onclick=e=>{controls.autoRotate=!controls.autoRotate;e.currentTarget.classList.toggle("active",controls.autoRotate)};
+document.getElementById("frontBtn").onclick=()=>{
+  if(!modelReady)return;
+  const box=new THREE.Box3().setFromObject(root),c=box.getCenter(new THREE.Vector3()),s=box.getSize(new THREE.Vector3());
+  const d=Math.max(s.x,s.y,s.z)*1.65;
+  camera.position.set(c.x,c.y+.08*d,c.z+d); controls.target.copy(c); controls.update();
+};
+document.getElementById("topBtn").onclick=()=>{
+  if(!modelReady)return;
+  const box=new THREE.Box3().setFromObject(root),c=box.getCenter(new THREE.Vector3()),s=box.getSize(new THREE.Vector3());
+  const d=Math.max(s.x,s.y,s.z)*1.45;
+  camera.position.set(c.x,c.y+d,c.z+.08*d); controls.target.copy(c); controls.update();
+};
+
+function resize(){
+  const r=canvas.getBoundingClientRect();
+  renderer.setSize(Math.max(1,r.width),Math.max(1,r.height),false);
+  camera.aspect=Math.max(.1,r.width)/Math.max(1,r.height);
+  camera.updateProjectionMatrix();
+}
+window.addEventListener("resize",resize); resize();
+
+function animate(){
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene,camera);
+}
+animate();
+
+sync();
+
+document.getElementById("waForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const name=document.getElementById("name").value.trim();
+  const phone=document.getElementById("phone").value.trim();
+  const branch=document.getElementById("branch").value;
+  const interest=document.getElementById("interest").value;
+  const message=document.getElementById("message").value.trim();
+  const text=`Hello Dental World,%0A%0AI would like to request an appointment.%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0ABranch: ${encodeURIComponent(branch)}%0AInterest: ${encodeURIComponent(interest)}%0AMessage: ${encodeURIComponent(message||"—")}`;
+  window.open(`https://wa.me/917018314882?text=${text}`,"_blank");
+});
+</script>
+<script>
+const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("show")}),{threshold:.08});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+document.querySelectorAll(".links a").forEach(a=>a.addEventListener("click",()=>document.querySelector(".links").classList.remove("open")));
+</script>
+</body>
+</html>
